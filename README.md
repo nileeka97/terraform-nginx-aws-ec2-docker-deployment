@@ -1,69 +1,97 @@
 # Terraform AWS Infrastructure Deployment
 
-This Terraform project automates the deployment of AWS infrastructure components including VPC, Subnets, Internet Gateway, Route Table, Security Group, and EC2 instance. It allows you to set up a basic AWS environment for your application.
+Description of your project goes here. Briefly explain what the project does, its purpose, and any important information. For example, setting up a secure and scalable infrastructure on AWS using Terraform.
+
+## Table of Contents
+
+- [Prerequisites](#prerequisites)
+- [Getting Started](#getting-started)
+  - [Terraform Variables](#terraform-variables)
+  - [Deploying the Infrastructure](#deploying-the-infrastructure)
+- [Accessing the Application](#accessing-the-application)
+- [Cleanup](#cleanup)
+- [Contributing](#contributing)
+- [License](#license)
 
 ## Prerequisites
 
-Before you begin, ensure you have the following:
+Before you begin, ensure you have the following prerequisites:
 
-- AWS Account: You need an AWS account to create the resources. If you don't have one, you can create it [here](https://aws.amazon.com/).
-- AWS Credentials: Set up your AWS credentials (access key, secret key) with appropriate permissions.
-- Terraform Installed: Make sure you have Terraform installed. You can download it from [terraform.io](https://www.terraform.io/downloads.html).
+- AWS account with appropriate permissions.
+- Terraform installed on your local machine. [Install Terraform](https://learn.hashicorp.com/tutorials/terraform/install-cli).
 
-## Configuration
+## Getting Started
 
-1. Clone this repository:
+### Terraform Variables
+
+In order to deploy the infrastructure, you need to set the following variables in your `terraform.tfvars` file or provide them as environment variables:
+
+- `aws_region`: AWS region where the infrastructure will be deployed.
+- `aws_access_key`: Your AWS access key.
+- `aws_secret_key`: Your AWS secret key.
+- `project_name`: Name of your project (append environment: dev, stag, or prod).
+- `vpc_cidr_block`: CIDR block for the Virtual Private Cloud (VPC).
+- `public_subnet_1_cidr_block`: CIDR block for the public subnet 1 within the VPC.
+- `public_subnet_1_avail_zone`: Availability zone for the public subnet 1.
+- `instance_type`: Instance type for the EC2 instance (e.g., t2.micro, m5.large).
+- `ec2_key_name`: Name of the manually created key pair for SSH access.
+
+Example `terraform.tfvars`:
+
+```hcl
+aws_region = "us-west-2"
+aws_access_key = "your-access-key"
+aws_secret_key = "your-secret-key"
+project_name = "myproject-dev"
+vpc_cidr_block = "10.0.0.0/16"
+public_subnet_1_cidr_block = "10.0.1.0/24"
+public_subnet_1_avail_zone = "us-west-2a"
+instance_type = "t2.micro"
+ec2_key_name = "your-key-pair-name"
+```
+
+### Deploying the Infrastructure
+
+1. Clone this repository to your local machine:
 
    ```bash
    git clone https://github.com/nileeka97/terraform-nginx-aws-ec2-docker-deployment.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
    cd terraform-nginx-aws-ec2-docker-deployment
    ```
 
-2. Create a `terraform.tfvars` file and provide values for the required variables:
-
-   ```hcl
-   aws_region            = "<your-aws-region>"    # AWS region where the infrastructure will be deployed
-   aws_access_key        = "<your-access-key>"    # AWS access key for authentication
-   aws_secret_key        = "<your-secret-key>"     # AWS secret key for authentication
-   project_name          = "<your-project-name>"    # Name of the project; append environment (dev, stag, or prod)
-   vpc_cidr_block        = "10.0.0.0/16"    # CIDR block for the Virtual Private Cloud (VPC)
-   public_subnet_1_cidr_block = "10.0.1.0/24"    # CIDR block for the public subnet 1 within the VPC
-   public_subnet_1_avail_zone = "<availability-zone>"    # Availability zone for the public subnet 1
-   instance_type         = "t2.micro"    # Define the instance type (e.g., t2.micro, m5.large)
-   ec2_key_name          = "my-key-pair"    # Name of the manually created key pair for SSH access
-   ```
-
-3. Initialize Terraform and apply the configuration:
+3. Initialize Terraform:
 
    ```bash
    terraform init
-   terraform plan
+   ```
+
+4. Apply the Terraform configuration:
+
+   ```bash
    terraform apply
    ```
 
-## Usage
+## Accessing the Application
 
-After the configuration is applied successfully, you can access the public IP of the created EC2 instance. The public IP address will be displayed as an output after Terraform applies the configuration.
+After the infrastructure is deployed, you can access the application by visiting the following URL:
 
-Example Output:
+- [Server URL](http://your-server-ip-or-domain)
 
-```plaintext
-ec2_public_ip = "X.X.X.X"
-```
-
-SSH into the EC2 instance using the provided public IP address and the specified key pair.
-
-```bash
-ssh -i /path/to/your-key.pem ec2-user@X.X.X.X
-```
+Replace `your-server-ip-or-domain` with the public IP address or domain name of your server where Nginx is running. Port 80 has been opened to allow HTTP traffic.
 
 ## Cleanup
 
-To avoid incurring charges, make sure to destroy the created resources after use:
+To destroy the infrastructure and cleanup resources, run:
 
 ```bash
 terraform destroy
 ```
 
+## Contributing
 
-
+Feel free to contribute to this project by [opening an issue](https://github.com/nileeka97/terraform-nginx-aws-ec2-docker-deployment/issues) or creating a pull request.
