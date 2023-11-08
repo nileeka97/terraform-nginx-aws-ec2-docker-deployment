@@ -15,7 +15,7 @@ Before you begin, ensure you have the following:
 1. Clone this repository:
 
    ```bash
-   git clone <repository-url>
+   git clone https://github.com/nileeka97/terraform-nginx-aws-ec2-docker-deployment.git
    cd terraform-nginx-aws-ec2-docker-deployment
    ```
 
@@ -25,7 +25,7 @@ Before you begin, ensure you have the following:
    aws_region            = "<your-aws-region>"    # AWS region where the infrastructure will be deployed
    aws_access_key        = "<your-access-key>"    # AWS access key for authentication
    aws_secret_key        = "<your-secret-key>"     # AWS secret key for authentication
-   project_name          = "<your-project-name>"    # Name of the project; append environment (dev, stag, or prod) later
+   project_name          = "<your-project-name>"    # Name of the project; append environment (dev, stag, or prod)
    vpc_cidr_block        = "10.0.0.0/16"    # CIDR block for the Virtual Private Cloud (VPC)
    public_subnet_1_cidr_block = "10.0.1.0/24"    # CIDR block for the public subnet 1 within the VPC
    public_subnet_1_avail_zone = "<availability-zone>"    # Availability zone for the public subnet 1
@@ -37,6 +37,7 @@ Before you begin, ensure you have the following:
 
    ```bash
    terraform init
+   terraform plan
    terraform apply
    ```
 
