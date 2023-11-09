@@ -44,3 +44,7 @@ jobs:
             -var "public_subnet_1_avail_zone=${{ env.PUBLIC_SUBNET_1_AVAIL_ZONE }}" \
             -var "instance_type=${{ env.INSTANCE_TYPE }}" \
             -var "ec2_key_name=${{ env.EC2_KEY_NAME }}"
+
+      - name: Print Terraform Outputs
+        run: |
+          echo "EC2 Public IP: $(terraform output ec2_public_ip)"
