@@ -65,7 +65,7 @@ resource "aws_route_table_association" "a-rtb-subnet" {
 
 # 6. Create a Security Group to control inbound and outbound traffic
 resource "aws_security_group" "myapp-sg" {
-  name        = "myapp-sg"             # Set the name for the security group
+  name        = "${var.project_name}-sg"  # Set the name for the security group
   description = "myapp-sg-description" # Set the description for the security group
   vpc_id      = aws_vpc.myapp-vpc.id   # Associate the security group with the created VPC
 
