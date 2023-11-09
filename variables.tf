@@ -1,5 +1,5 @@
 # Define input variables for AWS configuration
-variable aws_region {}          # AWS region where the infrastructure will be deployed
+#variable aws_region {}          # AWS region where the infrastructure will be deployed
 #variable aws_access_key {}      # AWS access key for authentication
 #variable aws_secret_key {}      # AWS secret key for authentication
 
