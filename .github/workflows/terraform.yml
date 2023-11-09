@@ -1,9 +1,19 @@
 name: Terraform Deployment
 
+env:
+  # Configure the following environment variables
+  AWS_REGION: "ap-south-1"
+  PROJECT_NAME: "demo-project-dev" # Name of the project; append environment (dev, stag, or prod)
+  VPC_CIDR_BLOCK: "10.0.0.0/16" # CIDR block for the Virtual Private Cloud (VPC)
+  PUBLIC_SUBNET_1_CIDR_BLOCK: "10.0.1.0/24"
+  PUBLIC_SUBNET_1_AVAIL_ZONE: "ap-south-1a"
+  INSTANCE_TYPE: "t2.micro" # Define the instance type (e.g., t2.micro, m5.large)
+  EC2_KEY_NAME: "demo-project-dev-kp" # Name of the key pair created manually
+
 on:
   push:
     branches:
-      - main  # Trigger the workflow on push to the 'main' branch
+      - master
 
 jobs:
   terraform:
@@ -15,13 +25,12 @@ jobs:
       - name: Set up Terraform
         uses: hashicorp/setup-terraform@v1
 
-
-      - name: Configure my AWS Credentials
+      - name: Configure AWS Credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
-          aws-access-key-id    : ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region           : ${{ env.AWS_REGION }}
+          aws-region: ${{ env.AWS_REGION }}
 
       - name: Initialize Terraform
         run: terraform init
@@ -29,9 +38,9 @@ jobs:
       - name: Apply Terraform Configuration
         run: |
           terraform apply -auto-approve \
-            -var "project_name=${{ secrets.project_name }}" \
-            -var "vpc_cidr_block=${{ secrets.vpc_cidr_block }}" \
-            -var "public_subnet_1_cidr_block=${{ secrets.public_subnet_1_cidr_block }}" \
-            -var "public_subnet_1_avail_zone=${{ secrets.public_subnet_1_avail_zone }}" \
-            -var "instance_type=${{ secrets.instance_type }}" \
-            -var "ec2_key_name=${{ secrets.ec2_key_name }}"
+            -var "project_name=${{ env.PROJECT_NAME }}" \
+            -var "vpc_cidr_block=${{ env.VPC_CIDR_BLOCK }}" \
+            -var "public_subnet_1_cidr_block=${{ env.PUBLIC_SUBNET_1_CIDR_BLOCK }}" \
+            -var "public_subnet_1_avail_zone=${{ env.PUBLIC_SUBNET_1_AVAIL_ZONE }}" \
+            -var "instance_type=${{ env.INSTANCE_TYPE }}" \
+            -var "ec2_key_name=${{ env.EC2_KEY_NAME }}"
