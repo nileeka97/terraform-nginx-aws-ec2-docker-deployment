@@ -1,7 +1,7 @@
 # Define input variables for AWS configuration
 variable aws_region {}          # AWS region where the infrastructure will be deployed
-variable aws_access_key {}      # AWS access key for authentication
-variable aws_secret_key {}      # AWS secret key for authentication
+#variable aws_access_key {}      # AWS access key for authentication
+#variable aws_secret_key {}      # AWS secret key for authentication
 
 # Define input variables for project-specific configurations
 variable project_name {}        # Name of the project; append environment (dev, stag, or prod) later

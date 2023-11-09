@@ -1,3 +1,6 @@
+
+
+
 # 1. Create a VPC (Virtual Private Cloud)
 resource "aws_vpc" "myapp-vpc" {
   cidr_block = var.vpc_cidr_block # Define the CIDR block for the VPC (IP range)

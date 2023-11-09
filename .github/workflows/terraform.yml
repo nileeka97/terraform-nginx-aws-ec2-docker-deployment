@@ -1,0 +1,37 @@
+name: Terraform Deployment
+
+on:
+  push:
+    branches:
+      - main  # Trigger the workflow on push to the 'main' branch
+
+jobs:
+  terraform:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v2
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v1
+
+
+          - name: Configure my AWS Credentials
+          uses: aws-actions/configure-aws-credentials@v1
+          with:
+            aws-access-key-id    : ${{ secrets.DEPLOYMENTUSER_ACCESS_KEY }}
+            aws-secret-access-key: ${{ secrets.DEPLOYMENTUSER_SECRET_KEY }}
+            aws-region           : ${{ env.AWS_REGION_NAME }}
+
+      - name: Initialize Terraform
+        run: terraform init
+
+      - name: Apply Terraform Configuration
+        run: |
+          terraform apply -auto-approve \
+            -var "project_name=${{ secrets.project_name }}" \
+            -var "vpc_cidr_block=${{ secrets.vpc_cidr_block }}" \
+            -var "public_subnet_1_cidr_block=${{ secrets.public_subnet_1_cidr_block }}" \
+            -var "public_subnet_1_avail_zone=${{ secrets.public_subnet_1_avail_zone }}" \
+            -var "instance_type=${{ secrets.instance_type }}" \
+            -var "ec2_key_name=${{ secrets.ec2_key_name }}"
